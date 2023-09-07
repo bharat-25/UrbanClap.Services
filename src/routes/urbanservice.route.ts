@@ -10,6 +10,6 @@ servicesRoute.route('/salonServices').get(getAllSalonService);
 servicesRoute.route('/homeServices').get(getAllHomeService);
 servicesRoute.route('/getallservice').get(getAllService);
 servicesRoute.route('/addnewService').post(verifyAdmin,addnewservices);
-servicesRoute.route('/services/NewPackages').post(verifyAdmin,newPackages);
+servicesRoute.route('/NewPackages').post(verifyAdmin,newPackages);
 
 export default servicesRoute;

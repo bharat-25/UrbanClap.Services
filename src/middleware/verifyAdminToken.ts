@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { RESPONSE_MESSAGES, RESPONSE_CODES } from "../responses/services.responses";
 
-
+// let sc = <string> process.env.secretKey
 /**
  * Verifies if the user is an admin by checking the JWT token.
  * If the user is an admin, calls the next middleware function.
@@ -19,44 +19,27 @@ export const verifyAdmin = async (req: Request,res: Response,next: NextFunction)
   const RefreshKeys = "myrefreshtoken";
 
   try {
-    const Token = req.headers.authorization?.split(" ")[1]; // Extract the access token from the Authorization header
+    
+    const Token = req.headers.authorization?.replace('Bearer ','');
 
     if (!Token) {
       return res.status(RESPONSE_CODES.UNAUTHORIZED).json({ message: RESPONSE_MESSAGES.NOT_FOUND});
     }
-
-    let isadmin = false;
-
-    try {
       console.log("IN ACCESS BLOCK TOKEN");
-      const decodedAccessToken: any = jwt.verify(Token, AccessKeys) as {
-        isAdmin: boolean;
-      };
-      isadmin = decodedAccessToken.isAdmin.isAdmin;
-    } catch (error) {
-      // Access token verification failed
-    }
-
-    if (!isadmin) {
-      try {
-        const decodedRefreshToken: any = jwt.verify(Token, RefreshKeys) as {
-          isAdmin: boolean;
-        };
-
-        isadmin = decodedRefreshToken.isAdmin.isAdmin;
-      } catch (error) {
-        // Refresh token verification failed
+      const decodedAccessToken: any = jwt.verify(Token, AccessKeys)
+      console.log(decodedAccessToken)
+      const isadmin = decodedAccessToken.isAdmin;
+      if (isadmin == true) {
+        next();
+      }else{
+       res.status(404).json({ message: "Access Denied!, You are not Admin" });
       }
+    } 
+    catch (error) {
+      res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
     }
-    if (!isadmin) {
-      return res.status(RESPONSE_CODES.UNAUTHORIZED).json({ message: RESPONSE_MESSAGES.ACCESS_DENIED });
-    }
+  
 
-    next();
-  } catch (error) {
-    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
-  }
-};
 
 //   try {
 
@@ -77,4 +60,5 @@ export const verifyAdmin = async (req: Request,res: Response,next: NextFunction)
 //   } catch (err) {
 //     res.send("UNAUTHORIZED" );
 //   }
-// };
+// }
+  }

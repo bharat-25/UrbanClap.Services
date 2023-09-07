@@ -1,0 +1,353 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Urban Clap Services",
+    "description": ""
+  },
+  "host": "localhost:5002",
+  "tags": [
+   {
+      "name": "Add New Services",
+      "description": "Endpoints related to add new Urban Clap Service "
+    },{
+      "name": "Offers",
+      "description": "Endpoints related to Urban Clap Service Offers "
+    }
+  ],
+  "schemes": ["http"], 
+      "securityDefinitions": {   
+         "bearerAuth": {      
+          "type": "apiKey",      
+          "name": "Authorization",      
+          "in": "header"    
+          }
+        },
+  "paths": {
+    "/service/": {
+      "get": {
+        "description": "",
+        
+        "responses": {
+          "default": {
+            "description": "GET"
+          }
+        }
+      }
+    },
+    "/service/salonServices": {
+      "get": {
+        "tags": ["Urban Clap SERVICES"],
+
+        "description": "Salon Services",
+        
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          },{
+            "name": "category_id",
+            "in": "query",
+            "type": "number"
+          },{
+            "name": "parent_id",
+            "in": "query",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/service/homeServices": {
+      "get": {
+        "tags": ["Urban Clap SERVICES"],
+
+        "description": "Home Services",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          },{
+            "name": "category_id",
+            "in": "query",
+            "type": "number"
+          },{
+            "name": "parent_id",
+            "in": "query",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/service/getallservice": {
+      "get": {
+
+        "tags": ["Urban Clap SERVICES"],
+
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/service/addnewService": {
+      "post": {
+        "tags": ["Add New Services"],
+        "summary": "New Services Add",
+        "description": "New Services Add",
+        "security": [{ "bearerAuth": [] }],
+
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "service name"
+                }, 
+                "description":{
+                  "example":"About new service"
+                },
+                "category_id":{
+                  "example": "122"
+                },
+                "parent_id":{
+                    "example": "123"
+              }
+            }
+          }
+          }],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/service/NewPackages": {
+      "post": {
+        "tags": ["Add New package"],
+        "summary": "New Package Add",
+        "description": "New package Add",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "service name"
+                }, 
+                "description":{
+                  "example":"About new service"
+                },
+                "category_id":{
+                  "example": "122"
+                },
+                "parent_id":{
+                    "example": "[123]"
+              },"price":{
+                "example":"249"
+              }
+            }
+          }
+          }],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/offer/create": {
+      "post": {
+        "tags": ["Offers"],
+        "summary": "Create New Offer",
+        "description": "Create New Offer",
+        "security": [{ "bearerAuth": [] }],
+
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Offer_name": {
+                  "example": "service name"
+                }, 
+                "Offer_description":{
+                  "example":"About new service"
+                },
+                "Offer_start_date":{
+                  "example": "122"
+                },
+                "Offer_end_date":{
+                    "example": "[123]"
+              }
+            }
+          }
+          }],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/offer/getOffers": {
+      "get": {
+        "tags": ["Offers"],
+        "summary": "Create New Offer",
+        "description": "Create New Offer",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/offer/deleteOffers": {
+      "delete": {
+        "tags": ["Offers"],
+        "security": [{ "bearerAuth": [] }],
+
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Offer_name": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

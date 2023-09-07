@@ -1,67 +1,55 @@
-import { EventCreatingService } from "../services/Admin/event.service";
-import {
-    RESPONSE_MESSAGES,
-    RESPONSE_CODES,
-  } from "../responses/services.responses";
+import { OfferCreatingService } from "../services/Admin/event.service";
+import {RESPONSE_MESSAGES,RESPONSE_CODES,} from "../responses/services.responses";
 import { Request, Response } from "express";
 
-export class EventCreatingController{
-    static async createEvent(req:Request, res:Response){
+export class OfferCreatingController{
+    static async createOffer(req:Request, res:Response){
         try{
             const value = req.body;
 
-            const existingEvent = await EventCreatingService.getEventByName(value.Event_name);
+            const existing = await OfferCreatingService.getOfferByName(value.Offer_name);
 
-            if(existingEvent){
-                return res.status(RESPONSE_CODES.CONFLICT).json({
-                    message: RESPONSE_MESSAGES.ALREADY_EXIST
-                });
+            if(existing){
+                return res.status(RESPONSE_CODES.CONFLICT).json({message: RESPONSE_MESSAGES.ALREADY_EXIST});
             }
 
-            const newEventData = value;
-            
-            const newEvent = await EventCreatingService.createEvent(newEventData);
+            const newOfferData = value;
+            const newOffer = await OfferCreatingService.createOffer(newOfferData);
 
-            return res.status(RESPONSE_CODES.CREATED).json({
-                message: RESPONSE_MESSAGES.EVENT_CREATED, Event: newEvent
-            });
+            return res.status(RESPONSE_CODES.CREATED).json({message: RESPONSE_MESSAGES.EVENT_CREATED, Offer: newOffer});
         }catch(error){
-            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({
-                message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
+            console.log(error);
+            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
             })   
         }
     }
 
-    static async getEvents(req:Request, res:Response) {
+    static async getOffers(req:Request, res:Response) {
         try {
             const pageNumber = req.query.pageNumber || 1;
             const pageSize = req.query.pageSize|| 10;
     
-            const events = await EventCreatingService.getEvents(pageNumber, pageSize);
-            return res.status(200).json(events);
+            const offers = await OfferCreatingService.getOffers(pageNumber, pageSize);
+            return res.status(200).json(offers);
+
         } catch (error) {
-            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({
-                message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
+            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
             })   
         }
     }
-    static async deleteEvent(req:Request, res:Response){
-        const {Event_name} = req.body;
+    static async deleteOffer(req:Request, res:Response){
+        const {Offer_name} = req.body;
         try{
 
-            const event = await EventCreatingService.removeEventByname(Event_name);
-            if(!event){
-                return res.status(RESPONSE_CODES.NOTFOUND).json({
-                    message: RESPONSE_MESSAGES.NOT_FOUND
+            const offer = await OfferCreatingService.removeOfferByname(Offer_name);
+            if(!offer){
+                return res.status(RESPONSE_CODES.NOTFOUND).json({message: RESPONSE_MESSAGES.NOT_FOUND
                 })
             }
-
-            return res.status(RESPONSE_CODES.SUCCESS).json({
-                message: RESPONSE_MESSAGES.EVENT_DELETE
+            return res.status(RESPONSE_CODES.SUCCESS).json({message: RESPONSE_MESSAGES.EVENT_DELETE
             })
         }catch(error){
-            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({
-                message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
+            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
             })
         }
     }

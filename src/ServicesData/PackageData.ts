@@ -25,7 +25,7 @@ const homeService = [
       parent_id:[101,121,151,156],
       price: 1249
     },{
-      name: "Haircut for Men",
+      "name": "Haircut for Men",
       description: "Haircut: Professional haircut that suits your face shape",
       category_id: 705,
       parent_id:[101,121,151,152,155,156,158],

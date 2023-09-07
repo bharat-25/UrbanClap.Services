@@ -30,5 +30,6 @@ const newServiceValid = Joi.object({
       next();
     };
   };
+  
   export const NewServiceValidation = validatedata(newServiceValid);
   export const NewSub_ServiceValidation = validatedata(newsubServiceValid);

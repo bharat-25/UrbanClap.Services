@@ -1,5 +1,3 @@
-// import { ServicesData } from "../../ServicesData/ServicesData";
-import { log } from "console";
 import { ServiceModel } from "../../models/ServiceModel";
 
 /**
@@ -9,21 +7,16 @@ import { ServiceModel } from "../../models/ServiceModel";
  */
 
 
-export const addNewServices = async (serviceDataArray: any) => {
+export const addNewServices = async (serviceData: any) => {
   try {
-    const insertedServices = [];
-
-    for (const serviceData of serviceDataArray) {
       const { name,description, category_id,parent_id } = serviceData;
-
-      // Check if a service with the same category_id already exists
+      
       const existingService = await ServiceModel.findOne({category_id });
 
       if (existingService) {
-        return; // Skip this service and move to the next one
+        return; 
       }
 
-      // Create and save the new service
       const newService = new ServiceModel({
         name,
         description,
@@ -33,13 +26,56 @@ export const addNewServices = async (serviceDataArray: any) => {
       });
 
       const insertedService = await newService.save();
-      insertedServices.push(insertedService);
-    }
+      return insertedService;
 
-    return insertedServices;
   } catch (error) {
     throw new Error('Error adding new services');
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // try {
+  //   const insertedServices = [];
+
+  //   for (const serviceData of serviceDataArray) {
+  //     const { name,description, category_id,parent_id } = serviceData;
+      
+  //     const existingService = await ServiceModel.findOne({category_id });
+
+  //     if (existingService) {
+  //       return; 
+  //     }
+
+  //     // Create and save the new service
+  //     const newService = new ServiceModel({
+  //       name,
+  //       description,
+  //       category_id,
+  //       parent_id,
+        
+  //     });
+
+  //     const insertedService = await newService.save();
+  //     insertedServices.push(insertedService);
+  //   }
+
+  //   return insertedServices;
+  // } catch (error) {
+  //   throw new Error('Error adding new services');
+  // }
 }
 
 //     try {

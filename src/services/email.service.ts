@@ -6,8 +6,8 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL, 
-    pass: process.env.EMAIL_PASSWORD, 
+    user: process.env.My_Mail, 
+    pass: process.env.My_Password, 
   },
   debug: true,
 });
@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 export const sendReminderEmail = async (to: string, subject: string, text: string) => {
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL,
+      from: process.env.My_Mail,
       to,
       subject,
       text,

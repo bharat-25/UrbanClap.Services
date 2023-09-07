@@ -1,59 +1,61 @@
-import EventModel from '../../models/event.model'
-import cron from 'node-cron';
-import { Op } from 'sequelize'; 
+import OfferModel from '../../models/offer.model'
+import cron from 'node-cron'; 
 import { UserData} from '../../models/UserModel';
 import { sendStylzedMail } from '../email.service'; 
-import { eventTemplateClass } from '../../templates/events.template';
+import { offerTemplateClass } from '../../templates/offers.template';
 
-export class EventCreatingService{
-    static async getEventByName(Event_name:any){
-        return EventModel.findOne({where: {Event_name}});
+export class OfferCreatingService{
+    static async getOfferByName(Offer_name:any){
+        return OfferModel.findOne({Offer_name:Offer_name});
     }
 
-    static async createEvent(eventData:any){
-        return EventModel.create(eventData);
+    static async createOffer(OfferData: any){
+        return OfferModel.insertMany(OfferData);
     }
     
-    static async removeEventByname(Event_name:any){
-        return EventModel.deleteOne({ where: {Event_name} } );
+    static async removeOfferByname(Offer_name:any){
+        return OfferModel.deleteOne({ Offer_name: Offer_name });
     }
 
-    static async checkEventExistance(eventId:any){
+    static async checkOfferExistance(offerId:any){
         try{
-            const event = await EventModel.findById(eventId);
-            return event !== null;
+            const offer = await OfferModel.findById(offerId);
+            return offer !== null;
         }catch(error){
-            console.error("Error checking event existance: ", error);
+            console.error("Error checking offer existance: ", error);
             throw error;
         }
     }
 
-    static async getEvents(page: number, pageSize: number) {
+    static async getOffers(page: any, pageSize: any) {
         const skip = (page - 1) * pageSize;
     
-        const events = await EventModel.find()
+        const offers = await OfferModel.find()
           .skip(skip)
           .limit(pageSize);
-        return events;
+        return offers;
       }
 
-      static async startEventReminderCron() {
-        cron.schedule('0 8 * * *', async () => {
-          console.log('Running event reminder cron job...');
+      static async startOfferReminderCron() {
+                cron.schedule('*/10 * * * * *', async () => {
+
+        // cron.schedule('0 8 * * *', async () => {
+          console.log('Running offer reminder cron job...');
     
           try {
-            const overdueEvents = await EventModel.find({
-              Event_date: {
+            const overdueoffers = await OfferModel.find({
+              Offer_start_date: {
                 $gte: new Date(),
                 $lt: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000), // One week in the future
               },
             });                
 
-            for (const event of overdueEvents) {
+            for (const offer of overdueoffers) {
                 // Fetch user emails from the User model
                 const users = await UserData.find();
                 // Generate the email template using the modified class
-                const emailText = eventTemplateClass.makeEvent(event);
+                console.log(offer);
+                const emailText = offerTemplateClass.makeOffer(offer);
                 // Send emails to all users
                 for (const user of users) {
                     await sendStylzedMail(user.email, 'Invitation', emailText);
@@ -61,9 +63,9 @@ export class EventCreatingService{
                 }
             }
     
-            console.log('Event reminder cron job completed.');
+            console.log('Offer reminder cron job completed.');
             } catch (error) {
-                console.error('Error sending event reminders:', error);
+                console.error('Error sending offer reminders:', error);
             }
         });
 }

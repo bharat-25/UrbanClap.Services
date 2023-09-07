@@ -1,7 +1,7 @@
-export class eventTemplateClass{
-    static makeEvent(event:any){
-            // const imageUrl = 'https://cdn.pixabay.com/photo/2017/07/21/23/57/concert-2527495_1280.jpg';
-            const imageUrl = 'https://www.freepik.com/premium-photo/dark-ocean-green-color-marble-texture-background_17476065.htm';
+export class offerTemplateClass{
+    static makeOffer(offer:any){
+            // const imageUrl = 'https://images.unsplash.com/photo-1611794485509-701be5a5d4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8&w=1000&q=80';
+            const imageUrl = 'https://www.americanoceans.org/wp-content/uploads/2021/06/shutterstock_1938927043-1024x512.jpg';
         return `
   
 
@@ -35,7 +35,7 @@ export class eventTemplateClass{
                 
                 .header {
                     text-align: center;
-                    color:#f1eaea;
+                    color:#FFFFFF;
                     margin-bottom: 20px;
                 }
                 
@@ -97,18 +97,18 @@ export class eventTemplateClass{
 <div class="container animated" style="background: url('${imageUrl}') no-repeat center center; background-size: cover;">
     <div class="container animated">
         <div class="header">
-            <h1>You're Invited!</h1>
+        <h1>Offer Alert</h1>
             <p><h2><strong>Welcome to an extraordinary celebration of joy and togetherness.</strong></h2></p>
         </div>
         <div class="invitation-details">
-            <h2>Event Details</h2>
-            <p><strong>Date:</strong> ${event.Event_date}</p>
-            <p><strong>Name:</strong> ${event.Event_name}</p>
-            <p><strong>Description:</strong> ${event.Event_description}</p>
-            <p><strong>Dress Code:</strong> ${event.Event_dress}</p>
+            <h2>Offer Details</h2>
+            <p><strong>Name:</strong> ${offer.Offer_name}</p>
+            <p><strong>Description:</strong> ${offer.Offer_description}</p>
+            <p><strong>Offer Start:</strong> ${offer.Offer_start_date}</p>
+            <p><strong>Offer End:</strong> ${offer.Offer_end_date}</p>
         </div>
         <div class="footer">
-            <p><h2><strong>If you have any questions, please contact us at amvlit44@gmail.com</strong></h2></p>
+            <p><h2><strong>If you have any questions, please contact us at bharatannd2000@gmail.com</strong></h2></p>
         </div>
     </div>
 </body>
