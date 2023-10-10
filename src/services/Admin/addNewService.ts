@@ -10,8 +10,8 @@ import { ServiceModel } from "../../models/ServiceModel";
 export const addNewServices = async (serviceData: any) => {
   try {
       const { name,description, category_id,parent_id } = serviceData;
-      
-      const existingService = await ServiceModel.findOne({category_id });
+console.log("mmmmmmmmmmmmmmmmm",serviceData)
+      const existingService = await ServiceModel.findOne({category_id:serviceData.category_id });
 
       if (existingService) {
         return; 
@@ -22,9 +22,9 @@ export const addNewServices = async (serviceData: any) => {
         description,
         category_id,
         parent_id,
-        
       });
 
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaa",newService)
       const insertedService = await newService.save();
       return insertedService;
 

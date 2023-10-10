@@ -13,7 +13,7 @@ const categorySchema = new Schema({
   description: { type: String, required: true },
   category_id: { type: Number, required: true },
   parent_id: { type:[Number], default: null },
-},{});
+});
 
 const ServiceModel= mongoose.model<ICategory>("Services", categorySchema);
 

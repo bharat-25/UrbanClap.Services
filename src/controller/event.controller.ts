@@ -10,16 +10,16 @@ export class OfferCreatingController{
             const existing = await OfferCreatingService.getOfferByName(value.Offer_name);
 
             if(existing){
-                return res.status(RESPONSE_CODES.CONFLICT).json({message: RESPONSE_MESSAGES.ALREADY_EXIST});
+                return res.status(RESPONSE_CODES.CONFLICT).json({success:false,message: RESPONSE_MESSAGES.ALREADY_EXIST});
             }
 
             const newOfferData = value;
             const newOffer = await OfferCreatingService.createOffer(newOfferData);
 
-            return res.status(RESPONSE_CODES.CREATED).json({message: RESPONSE_MESSAGES.EVENT_CREATED, Offer: newOffer});
+            return res.status(RESPONSE_CODES.CREATED).json({success:true,message: RESPONSE_MESSAGES.EVENT_CREATED, Offer: newOffer});
         }catch(error){
             console.log(error);
-            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
+            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({success:false,message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
             })   
         }
     }
@@ -30,27 +30,26 @@ export class OfferCreatingController{
             const pageSize = req.query.pageSize|| 10;
     
             const offers = await OfferCreatingService.getOffers(pageNumber, pageSize);
-            return res.status(200).json(offers);
+            return res.status(RESPONSE_CODES.SUCCESS).json({success:true,message: RESPONSE_MESSAGES.GET_OFFER,offers});
 
         } catch (error) {
-            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
+            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({success:false,message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
             })   
         }
     }
+
     static async deleteOffer(req:Request, res:Response){
         const {Offer_name} = req.body;
         try{
 
             const offer = await OfferCreatingService.removeOfferByname(Offer_name);
             if(!offer){
-                return res.status(RESPONSE_CODES.NOTFOUND).json({message: RESPONSE_MESSAGES.NOT_FOUND
-                })
+                return res.status(RESPONSE_CODES.NOTFOUND).json({success:false,message: RESPONSE_MESSAGES.NOT_FOUND})
             }
-            return res.status(RESPONSE_CODES.SUCCESS).json({message: RESPONSE_MESSAGES.EVENT_DELETE
+            return res.status(RESPONSE_CODES.SUCCESS).json({success:true,message: RESPONSE_MESSAGES.EVENT_DELETE
             })
         }catch(error){
-            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR
-            })
+            return res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({success:false,message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR})
         }
     }
 }

@@ -26,10 +26,10 @@ export const getAllSalonService = async (req: Request, res: Response) => {
 
     const salonServices = await allSalonService(category_id,parent_id,page,limit);
 
-    return res.status(RESPONSE_CODES.SUCCESS).json({ message: RESPONSE_MESSAGES.SHOW_ALL_SERVICES, salonServices });
+    return res.status(RESPONSE_CODES.SUCCESS).json({ success:true,message: RESPONSE_MESSAGES.SHOW_ALL_SERVICES, salonServices });
   } catch (error) {
     console.error(error);
-    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
+    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ success:false,message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -49,10 +49,10 @@ export const getAllHomeService = async (req: Request, res: Response) => {
 
     const homeServices = await allHomeService(category_id,parent_id,page,limit);
 
-    return res.status(RESPONSE_CODES.SUCCESS).json({ message: RESPONSE_MESSAGES.SHOW_ALL_SERVICES, homeServices });
+    return res.status(RESPONSE_CODES.SUCCESS).json({ success:true,message: RESPONSE_MESSAGES.SHOW_ALL_SERVICES, homeServices });
   } catch (error) {
     console.error(error);
-    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
+    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ success:false,message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -72,10 +72,10 @@ export const getAllService = async (req: Request, res: Response) => {
 
     const allservices = await allService(page, limit);
 
-    return res.status(RESPONSE_CODES.SUCCESS).json({ message: RESPONSE_MESSAGES.SHOW_ALL_SERVICES, allservices });
+    return res.status(RESPONSE_CODES.SUCCESS).json({ success:true,message: RESPONSE_MESSAGES.SHOW_ALL_SERVICES, allservices });
   } catch (error) {
     console.error(error);
-    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
+    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({success:false, message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -89,19 +89,19 @@ export const getAllService = async (req: Request, res: Response) => {
 export const addnewservices = async (req: Request, res: Response) => {
   try {
     const serviceData :any= req.body;
-
     const insertedService = await addNewServices(serviceData);
 
     if (insertedService) {
       res.status(RESPONSE_CODES.CREATED).json({
+          success:true,
           message: RESPONSE_MESSAGES.SERVICE_ADDED,
-          service: insertedService,
+          insertedService,
         });
-    } else {
-      res.status(RESPONSE_CODES.CONFLICT).json({ message: RESPONSE_MESSAGES.SERVICE_ALREADY_EXIST });
+    }else {
+      res.status(RESPONSE_CODES.CONFLICT).json({success:false, message: RESPONSE_MESSAGES.SERVICE_ALREADY_EXIST });
     }
   } catch (error) {
-    res.status(500).json({ message: "An error occurred" });
+    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ success:false,message:RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -116,15 +116,13 @@ export const newPackages = async (req: Request, res: Response) => {
     const PackageData= req.body;
     const service_package = await addNewPackage(PackageData);
 
-  
-  if (service_package) {
-    // Successful insertion
-    res.status(RESPONSE_CODES.CREATED).json({ message: RESPONSE_MESSAGES.SERVICE_ADDED, service_package });
+    if (service_package) {
+    res.status(RESPONSE_CODES.CREATED).json({success:true, message: RESPONSE_MESSAGES.SERVICE_ADDED, service_package });
   } else {
-    res.status(RESPONSE_CODES.CONFLICT).json({ message: RESPONSE_MESSAGES.SERVICE_ALREADY_EXIST });
+    res.status(RESPONSE_CODES.CONFLICT).json({success:false, message: RESPONSE_MESSAGES.SERVICE_ALREADY_EXIST });
   }
 }
      catch (error) {
-    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({ message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
+    res.status(RESPONSE_CODES.INTERNAL_SERVER_ERROR).json({success:false, message: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
   }
 };

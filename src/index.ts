@@ -17,9 +17,7 @@ app.use('/service',servicesRoute);
 app.use('/offer',offerRoutes)
 
 const swaggerDocument = require("./swagger_output.json");
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument)).listen(4200,()=>{
-  console.log("sagger started in 4200 port ")
-})
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.listen(PORT,()=>{
   console.log(`server is running on port ${PORT}`);

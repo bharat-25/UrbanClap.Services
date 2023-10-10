@@ -30,6 +30,7 @@ export const verifyAdmin = async (req: Request,res: Response,next: NextFunction)
       console.log(decodedAccessToken)
       const isadmin = decodedAccessToken.isAdmin;
       if (isadmin == true) {
+        console.log("ADMIN")
         next();
       }else{
        res.status(404).json({ message: "Access Denied!, You are not Admin" });
